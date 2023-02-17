@@ -1,4 +1,4 @@
-const { Bird } = require('../models')
+const { Bird, Trick } = require('../models')
 
 const create = async (req, res) => {
   try {
@@ -12,6 +12,7 @@ const create = async (req, res) => {
 const index = async (req, res) => {
   try {
     const birds = await Bird.findAll({
+      include: [{ model: Trick, as: "tricks" }]
     })
     res.status(200).json(birds)
   } catch (error) {
@@ -49,10 +50,21 @@ const deleteBird = async (req, res) => {
   }
 }
 
+const addTrick = async (req, res) => {
+  try {
+    req.body.birdId = req.params.id
+    const trick = await Trick.create(req.body)
+    res.status(200).json(trick)
+  } catch (error) {
+    res.status(500).json(error)
+  }
+}
+
 module.exports = {
   create,
   index,
   show,
   update,
-  delete: deleteBird
+  delete: deleteBird,
+  addTrick
 }
