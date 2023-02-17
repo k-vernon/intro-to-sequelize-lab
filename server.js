@@ -7,6 +7,7 @@ const cors = require('cors')
 
 // import routers
 const indexRouter = require('./routes/index.js')
+const birdsRouter = require('./routes/birds.js')
 
 // create the express app
 const app = express()
@@ -18,6 +19,7 @@ app.use(express.json())
 
 // mount imported routes
 app.use('/', indexRouter)
+app.use('/api/birds', birdsRouter)
 
 // handle 404 errors
 app.use(function (req, res, next) {
